@@ -41,6 +41,12 @@ const userSchema = new Schema({
     }]
 })
 
+userSchema.virtual('gifts', {
+    ref: 'Gift',
+    localField: '_id',
+    foreignField: 'user_id'
+})
+
 userSchema.statics.login = async (email, password) => {
     const user = await User.findOne({ email })
 

@@ -2,12 +2,12 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let giftSchema = new Schema({
-    userId: {
+    user_id: {
         type: Schema.Types.ObjectId,
          ref: 'User',
         required: true
     },
-    productId: {
+    product_id: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: true
