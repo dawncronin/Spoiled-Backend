@@ -43,7 +43,33 @@ router.post('/users/logout', auth, async (req, res) => {
 
 })
 
+router.patch('/users/me', auth, async (req, res) => {
+    let user = req.user
+    const attributes = ['first_name', 'last_name', 'email', 'password']
 
+    for (key in req.body) {
+        console.log(key)
+        if (attributes.includes(key)){
+            user[key] = req.body[key]
+        }
+    }
+    console.log(user)
+    try {
+        await user.save()
+        res.send(user)
+    } catch (e) {
+        res.status(400).send()
+    }
+})
 
+router.delete('/users/me', auth, async(req, res) => {
+    try{
+        await req.user.remove()
+        res.send()
+    } catch (e) {
+        res.status(400).send()
+    }
+
+})
   
 module.exports = router
