@@ -2,13 +2,7 @@ const express = require('express')
 const router = new express.Router()
 const User = require('../models/user')
 const auth = require('../middleware/auth')
-
-
-router.get('/users', auth, (req, res) => {
-    res.send('Here are the users')
-}, (e) => {
-    res.status(400).send(e)
-})
+const Gift = require('../models/gift')
 
 router.post('/users', async (req, res) => {
     const user = new User(req.body)
@@ -39,6 +33,31 @@ router.post('/users/logout', auth, async (req, res) => {
     } catch (e) {
         res.status(400).send()
     }
+
+})
+
+router.get('/users/me', auth, async (req, res) => {
+    let user = req.user
+
+    try {
+        let gifts = await Gift.find({user_id: user._id})
+        res.send({user, gifts})    
+    } catch (e) {
+        res.status(500).send()
+    }
+
+
+})
+
+router.get('/users/:id', async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id)
+        let gifts = await Gift.find({user_id: user._id})
+        res.send({user, gifts})    
+    } catch (e) {
+        res.status(500).send()
+    }
+
 
 })
 
