@@ -5,7 +5,6 @@ const auth = require('../middleware/auth')
 const Gift = require('../models/gift')
 
 router.post('/users', async (req, res) => {
-    console.log(req.body)
     const user = new User(req.body)
     try {
         await user.save()

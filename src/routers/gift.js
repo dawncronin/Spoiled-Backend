@@ -4,6 +4,7 @@ const Gift = require('../models/gift')
 const auth = require('../middleware/auth')
 
 router.post('/gifts', auth, async (req, res) => {
+    console.log(req.body)
     let gift = new Gift(req.body)
 
     try {
