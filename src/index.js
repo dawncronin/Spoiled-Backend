@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 require('./db/mongoose')
 const userRouter = require('./routers/user')
 const productRouter = require('./routers/product')
@@ -6,7 +7,10 @@ const giftRouter = require('./routers/gift')
 
 
 const app = express()
-const port = 3000
+const port = 3001
+
+app.use(cors());
+app.options('*', cors());
 
 app.use(express.json())
 app.use(userRouter)

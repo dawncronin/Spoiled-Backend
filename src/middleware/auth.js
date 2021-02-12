@@ -14,7 +14,7 @@ const auth = async function(req, res, next) {
         req.token = token
         next()
     } catch (e) {
-        res.status(404).send("Unable to Authenticate")
+        res.status(401).send("Unable to Authenticate")
         }
 
 }

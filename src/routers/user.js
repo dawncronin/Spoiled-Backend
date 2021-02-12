@@ -5,11 +5,12 @@ const auth = require('../middleware/auth')
 const Gift = require('../models/gift')
 
 router.post('/users', async (req, res) => {
+    console.log(req.body)
     const user = new User(req.body)
     try {
         await user.save()
         const token = await user.generateAuthToken()
-        res.status(201).send({token})
+        res.status(201).send({token, user})
     } catch (e){
         res.status(400).send(e)
     }
@@ -18,9 +19,13 @@ router.post('/users', async (req, res) => {
 router.post('/users/login', async (req, res) => {
     let user = await User.login(req.body.email, req.body.password)
     let token = await user.generateAuthToken()
-    res.status(201).send({token})
+    res.status(201).send({token, user})
 }, (e) => {
     res.status(400).send()
+})
+
+router.get('/users/auth', auth, async (req,res) => {
+    res.status(201).send(req.user)
 })
 
 router.post('/users/logout', auth, async (req, res) => {

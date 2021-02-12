@@ -4,7 +4,12 @@ const Product = require('../models/product')
 const auth = require('../middleware/auth')
 
 router.get('/products', async (req, res) => {
-    let products = await Product.find({}).limit(10)
+    console.log(req.query)
+    let skip = 0
+    if (req.query.page) {
+        skip = (req.query.page * 20) - 20
+    }
+    let products = await Product.find({}).skip(skip).limit(20)
     res.send(products)
 })
 

@@ -17,20 +17,19 @@ const ProductSchema = new Schema({
             }
         }
     },
-    link: {
+    description: {
         type: String,
         required: true,
-        validate(value) {
-            if(!validator.isURL(value)) {
-                throw new Error('URL invalid')
-            }
-        }
+    },
+    department: {
+        type: String,
+        required: true
+    },
+    image: {
+        type: String,
+        required: true
     }
 })
-
-// ProductSchema.pre('save', async (next) => {
-//     next
-// })
 
 const Product = mongoose.model('Product', ProductSchema)
 
