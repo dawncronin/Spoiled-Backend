@@ -4,7 +4,6 @@ const Product = require('../models/product')
 const auth = require('../middleware/auth')
 
 router.get('/products', async (req, res) => {
-    console.log(req.query)
     let skip = 0
     if (req.query.page) {
         skip = (req.query.page * 20) - 20
@@ -24,7 +23,8 @@ router.post('/products', auth, async (req, res) => {
 })
 
 
-router.get('/products/:id', async(req, res) => {
+router.get('/products/:id', async (req, res) => {
+    console.log(req.params.id)
     let product = await Product.findById(req.params.id)
     if (!product) {
         res.status(401).send()
@@ -32,35 +32,35 @@ router.get('/products/:id', async(req, res) => {
     res.send(product)
 })
 
-router.patch('/products/:id', auth, async (req, res) => {
-    let product = await Product.findById(req.params.id)
+// router.patch('/products/:id', auth, async (req, res) => {
+//     let product = await Product.findById(req.params.id)
 
-    if (!product) {
-        res.status(404).send()
-    }
+//     if (!product) {
+//         res.status(404).send()
+//     }
 
-    const attributes = ['name', 'price', 'link']
+//     const attributes = ['name', 'price', 'link']
 
-    for (key in req.body) {
-        if (attributes.includes(key)){
-            product[key] = req.body[key]
-        }
-    }
+//     for (key in req.body) {
+//         if (attributes.includes(key)){
+//             product[key] = req.body[key]
+//         }
+//     }
 
-    try {
-        await product.save()
-        res.send(product)
-    } catch (e) {
-        res.status(400).send()
-    }
-})
+//     try {
+//         await product.save()
+//         res.send(product)
+//     } catch (e) {
+//         res.status(400).send()
+//     }
+// })
 
-router.delete('/products/:id', auth, async (req, res) => {
-    let product = await Product.findOneAndDelete(req.params.id)
-    if (!product) {
-        res.status(404).send()
-    }
-    res.send(product)
-})
+// router.delete('/products/:id', auth, async (req, res) => {
+//     let product = await Product.findOneAndDelete(req.params.id)
+//     if (!product) {
+//         res.status(404).send()
+//     }
+//     res.send(product)
+// })
 
 module.exports = router

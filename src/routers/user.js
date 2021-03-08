@@ -61,8 +61,15 @@ router.get('/users/:id', async (req, res) => {
     } catch (e) {
         res.status(500).send()
     }
+})
 
-
+router.get('/users', async (req, res) => {
+    try {
+        let users = await User.find({})
+        res.send({users})    
+    } catch (e) {
+        res.status(500).send()
+    }
 })
 
 router.patch('/users/me', auth, async (req, res) => {
@@ -70,12 +77,10 @@ router.patch('/users/me', auth, async (req, res) => {
     const attributes = ['first_name', 'last_name', 'email', 'password']
 
     for (key in req.body) {
-        console.log(key)
         if (attributes.includes(key)){
             user[key] = req.body[key]
         }
     }
-    console.log(user)
     try {
         await user.save()
         res.send(user)
