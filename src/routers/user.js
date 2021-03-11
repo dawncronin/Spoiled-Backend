@@ -16,11 +16,13 @@ router.post('/users', async (req, res) => {
 })
 
 router.post('/users/login', async (req, res) => {
-    let user = await User.login(req.body.email, req.body.password)
-    let token = await user.generateAuthToken()
-    res.status(201).send({token, user})
-}, (e) => {
-    res.status(400).send()
+    try {
+        const user = await User.login(req.body.email, req.body.password)
+        const token = await user.generateAuthToken()
+        res.status(201).send({token, user})
+    } catch (e){
+        res.status(400).send('fuck you')
+    }
 })
 
 router.get('/users/auth', auth, async (req,res) => {

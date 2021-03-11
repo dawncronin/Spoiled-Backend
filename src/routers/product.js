@@ -5,10 +5,23 @@ const auth = require('../middleware/auth')
 
 router.get('/products', async (req, res) => {
     let skip = 0
+    let sort = {}
+    if (req.query.sort) {
+        if (req.query.sort === 'low') {
+            sort = {'price': 1}
+        }
+        if (req.query.sort === 'high') {
+            sort = {'price': -1}
+        }
+        if (req.query.sort === 'alphabet') {
+            sort = {'name': 1}
+        }
+    }
     if (req.query.page) {
         skip = (req.query.page * 20) - 20
     }
-    let products = await Product.find({}).skip(skip).limit(20)
+
+    let products = await Product.find({}).skip(skip).limit(20).sort(sort)
     res.send(products)
 })
 
