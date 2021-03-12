@@ -37,7 +37,6 @@ router.post('/products', auth, async (req, res) => {
 
 
 router.get('/products/:id', async (req, res) => {
-    console.log(req.params.id)
     let product = await Product.findById(req.params.id)
     if (!product) {
         res.status(401).send()

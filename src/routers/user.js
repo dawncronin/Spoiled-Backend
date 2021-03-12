@@ -74,10 +74,14 @@ router.get('/users', async (req, res) => {
     }
 })
 
-router.patch('/users/me', auth, async (req, res) => {
+router.put('/users/me', auth, async (req, res) => {
     let user = req.user
+    try {
+        await User.login(req.body.old_email, req.body.old_password)
+    } catch (e) {
+        res.status(401).send(e)
+    }
     const attributes = ['first_name', 'last_name', 'email', 'password']
-
     for (key in req.body) {
         if (attributes.includes(key)){
             user[key] = req.body[key]

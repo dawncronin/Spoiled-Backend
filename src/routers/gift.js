@@ -29,7 +29,6 @@ router.delete('/gifts/:id', auth, async (req, res) => {
 
 router.patch('/gifts/:id', async (req, res) => {
     let gift = await Gift.findById(req.params.id)
-    console.log('patching')
 
     const attributes = ['purchased']
     for (key in req.body) {
