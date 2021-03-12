@@ -2,6 +2,8 @@ const Product = require('./models/product')
 const mongoose = require("mongoose");
 const faker = require('faker')
 
+require('dotenv').config()
+
 //name commerce/productName
 //price commerce/price
 //description commerce/productDescription
@@ -11,7 +13,7 @@ const faker = require('faker')
 
 
 
-mongoose.connect('mongodb://127.0.0.1:27017/spoiled_api', {
+mongoose.connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true
